@@ -1,26 +1,26 @@
 import numpy as np
 
-def propagate(fun, t0, x0, dt):
+def propagate(fun, t0, x0, dt, u):
     """
     Propagate state by timestep using RK4
     """
     # Step 1
-    k0 = fun(t0, x0)
+    k0 = fun(t0, x0, u)
     
     # Step 2
     t1 = t0 + dt / 2
     x1 = x0 + k0 * dt / 2
-    k1 = fun(t1, x1)
+    k1 = fun(t1, x1, u)
     
     # Step 3
     t2 = t0 + dt / 2
     x2 = x0 + k1 * dt / 2
-    k2 = fun(t2, x2)
+    k2 = fun(t2, x2, u)
     
     # Step 4
     t3 = t0 + dt
     x3 = x0 + k2 * dt
-    k3 = fun(t3, x3)
+    k3 = fun(t3, x3, u)
     
     # New state at t + dt
     xnew = x0 + (k0 + 2 * k1 + 2 * k2 + k3) * dt / 6
@@ -36,15 +36,15 @@ def double_integrator(t, x):
     dxdt[1] = 0
     return dxdt
     
-def gravity2D(t, x):
+def gravity2D(t, x, u):
     """
     Dynamics function
     """
     dxdt = np.empty_like(x)
     dxdt[0] = x[2]
     dxdt[1] = x[3]
-    dxdt[2] = 0
-    dxdt[3] = 0.00001
+    dxdt[2] = 0 + u[0]
+    dxdt[3] = 0.00001 + u[1]
     return dxdt
 
 

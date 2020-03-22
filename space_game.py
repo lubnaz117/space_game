@@ -13,15 +13,9 @@ from Spaceship import *
 def update(dt):
     """
     Update game. Called once per frame.
-    dt is the amount of time passed since last frame.
-    If you want to have constant apparent movement no matter your framerate,
-    what you can do is something like
-
-    x += v * dt
-
-    and this will scale your velocity based on time. Extend as necessary."""
-    
-    
+    """
+    action = np.array([0, 0])
+    T = 0.005
     
     # Go through events that are passed to the script by the window.
     for event in pygame.event.get():
@@ -29,12 +23,24 @@ def update(dt):
         # about is the QUIT event, because if you don't handle it, your game will crash
         # whenever someone tries to exit.
         
+        
+        if event.type == KEYDOWN:
+
+            if event.key == 119:
+                action = np.array([0, T])
+            elif event.key == 115:
+                action = np.array([0, -T])
+            elif event.key == 100:
+                action = np.array([T, 0])
+            elif event.key == 97:
+                action = np.array([-T, 0])            
+        
         if event.type == QUIT:
-            pygame.quit() # Opposite of pygame.init
-            sys.exit() # Not including this line crashes the script on Windows. Possibly
-            # on other operating systems too, but I don't know for sure.
-            # Handle other events as you wish.
- 
+            pygame.quit()
+            sys.exit() 
+                
+    return action
+    
 def draw(screen, ship):
     """
     Draw things to the window. Called once per frame.
@@ -55,7 +61,7 @@ def runPyGame():
     ship = Spaceship()
 
     # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
-    fps = 60.0
+    fps = 30.0
     fpsClock = pygame.time.Clock()
 
     # Set up the window.
@@ -69,9 +75,9 @@ def runPyGame():
     # Main game loop.
     dt = 1/fps # dt is the time since last frame.
     while True: # Loop forever!
-        update(dt) 
-        ship.update(dt)
+        action = update(dt) 
         
+        ship.update(dt, action)
         draw(screen, ship)
 
         dt = fpsClock.tick(fps)

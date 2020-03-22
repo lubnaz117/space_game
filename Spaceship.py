@@ -16,13 +16,13 @@ class Spaceship():
     def draw(self, screen):
         pygame.draw.circle(screen, self._color, self._pos, self._radius)
 
-    def update(self, dt):
+    def update(self, dt, action):
         #self.color = GREEN
         
         fun = gravity2D
         t = 0
-        self.state = propagate(fun, t, self.state, dt)
-        
-        print(self.state)
-        
+        self.state = propagate(fun, t, self.state, dt, action)
+
         self._pos = [int(self.state[0]), int(self.state[1])]
+        
+        #print(self.state)
