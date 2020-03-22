@@ -11,26 +11,26 @@ from pygame.locals import *
 from Spaceship import *
  
 def update(dt):
-  """
-  Update game. Called once per frame.
-  dt is the amount of time passed since last frame.
-  If you want to have constant apparent movement no matter your framerate,
-  what you can do is something like
-  
-  x += v * dt
-  
-  and this will scale your velocity based on time. Extend as necessary."""
-  
-  # Go through events that are passed to the script by the window.
-  for event in pygame.event.get():
-    # We need to handle these events. Initially the only one you'll want to care
-    # about is the QUIT event, because if you don't handle it, your game will crash
-    # whenever someone tries to exit.
+    """
+    Update game. Called once per frame.
+    dt is the amount of time passed since last frame.
+    If you want to have constant apparent movement no matter your framerate,
+    what you can do is something like
+
+    x += v * dt
+
+    and this will scale your velocity based on time. Extend as necessary."""
+
+    # Go through events that are passed to the script by the window.
+    for event in pygame.event.get():
+        # We need to handle these events. Initially the only one you'll want to care
+        # about is the QUIT event, because if you don't handle it, your game will crash
+        # whenever someone tries to exit.
     if event.type == QUIT:
-      pygame.quit() # Opposite of pygame.init
-      sys.exit() # Not including this line crashes the script on Windows. Possibly
-      # on other operating systems too, but I don't know for sure.
-    # Handle other events as you wish.
+        pygame.quit() # Opposite of pygame.init
+        sys.exit() # Not including this line crashes the script on Windows. Possibly
+        # on other operating systems too, but I don't know for sure.
+        # Handle other events as you wish.
  
 def draw(screen, ship):
   """
