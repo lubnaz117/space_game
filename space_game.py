@@ -17,13 +17,16 @@ def update(dt, ship, moon):
     Update game. Called once per frame.
     """
     action = np.array([0, 0])
-    T = 0.005
+    
     
     # Go through events that are passed to the script by the window.
     for event in pygame.event.get():
         # We need to handle these events. Initially the only one you'll want to care
         # about is the QUIT event, because if you don't handle it, your game will crash
         # whenever someone tries to exit.
+        
+        # Thrust amount
+        T = 0.005
         
         # Movement keys
         if event.type == KEYDOWN:
@@ -39,14 +42,9 @@ def update(dt, ship, moon):
         if event.type == QUIT:
             pygame.quit()
             sys.exit() 
-<<<<<<< HEAD
-            
-    # Update state
-=======
 
->>>>>>> 1996b6e351b1172a0fa973266b82598712baf102
     ship.update(dt, action)
-    moon.update(dt, action)
+    #moon.update(dt, action)
 
 def draw(screen, ship, moon):
     """
