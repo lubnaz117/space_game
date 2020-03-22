@@ -35,6 +35,18 @@ def double_integrator(t, x):
     dxdt[0] = x[1]
     dxdt[1] = 0
     return dxdt
+    
+def gravity2D(t, x):
+    """
+    Dynamics function
+    """
+    dxdt = np.empty_like(x)
+    dxdt[0] = x[2]
+    dxdt[1] = x[3]
+    dxdt[2] = 0
+    dxdt[3] = 0.00001
+    return dxdt
+
 
 if __name__ == "__main__":
     fun = double_integrator
