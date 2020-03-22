@@ -65,7 +65,7 @@ def runPyGame():
     fpsClock = pygame.time.Clock()
 
     # Set up the window.
-    width, height = 640, 480
+    width, height = 1200, 1200
     screen = pygame.display.set_mode((width, height))
 
     # screen is the surface representing the window.
