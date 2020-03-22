@@ -9,7 +9,8 @@ from pygame.locals import *
 
 # Import custom classes
 from Spaceship import *
- 
+from Moon import *
+
 def update(dt):
     """
     Update game. Called once per frame.
@@ -41,18 +42,19 @@ def update(dt):
                 
     return action
     
-def draw(screen, ship):
+def draw(screen, ship, moon):
     """
     Draw things to the window. Called once per frame.
     """
     screen.fill((0, 0, 0)) # Fill the screen with black.
     ship.draw(screen)
+    moon.draw(screen)
 
     # Redraw screen here.
 
     # Flip the display so that the things we drew actually show up.
     pygame.display.flip()
- 
+
 def runPyGame():
     # Initialise PyGame.
     pygame.init()
@@ -65,8 +67,12 @@ def runPyGame():
     fpsClock = pygame.time.Clock()
 
     # Set up the window.
-    width, height = 1200, 1200
-    screen = pygame.display.set_mode((width, height))
+    screen_size = (1200, 1200) # width, height
+    screen = pygame.display.set_mode(screen_size)
+
+    # Initialize Spaceship
+    ship = Spaceship()
+    moon = Moon()
 
     # screen is the surface representing the window.
     # PyGame surfaces can be thought of as screen sections that you can draw onto.
@@ -77,8 +83,9 @@ def runPyGame():
     while True: # Loop forever!
         action = update(dt) 
         
-        ship.update(dt, action)
-        draw(screen, ship)
+        # ship.update(dt, action)
+        moon.update(dt, action)
+        draw(screen, ship, moon)
 
         dt = fpsClock.tick(fps)
 
