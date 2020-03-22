@@ -11,7 +11,8 @@ from pygame.locals import *
 from Spaceship import *
 from Moon import *
 
-def update(dt):
+ 
+def update(dt, ship, moon):
     """
     Update game. Called once per frame.
     """
@@ -27,21 +28,22 @@ def update(dt):
         
         if event.type == KEYDOWN:
 
-            if event.key == 119:
+            if event.key == 115 or event.key == 274:
                 action = np.array([0, T])
-            elif event.key == 115:
+            elif event.key == 119 or event.key == 273:
                 action = np.array([0, -T])
-            elif event.key == 100:
+            elif event.key == 100 or event.key == 275:
                 action = np.array([T, 0])
-            elif event.key == 97:
+            elif event.key == 97 or event.key == 276:
                 action = np.array([-T, 0])            
         
         if event.type == QUIT:
             pygame.quit()
             sys.exit() 
-                
-    return action
-    
+
+    ship.update(dt, action)
+    moon.update(dt, action)
+
 def draw(screen, ship, moon):
     """
     Draw things to the window. Called once per frame.
@@ -74,17 +76,11 @@ def runPyGame():
     ship = Spaceship()
     moon = Moon()
 
-    # screen is the surface representing the window.
-    # PyGame surfaces can be thought of as screen sections that you can draw onto.
-    # You can also draw surfaces onto other surfaces, rotate surfaces, and transform surfaces.
-
     # Main game loop.
     dt = 1/fps # dt is the time since last frame.
     while True: # Loop forever!
-        action = update(dt) 
+        action = update(dt, ship, moon) 
         
-        # ship.update(dt, action)
-        moon.update(dt, action)
         draw(screen, ship, moon)
 
         dt = fpsClock.tick(fps)
