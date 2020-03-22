@@ -6,6 +6,9 @@ import sys
 # Import non-standard modules.
 import pygame
 from pygame.locals import *
+
+# Import custom classes
+from Spaceship import *
  
 def update(dt):
   """
@@ -29,11 +32,12 @@ def update(dt):
       # on other operating systems too, but I don't know for sure.
     # Handle other events as you wish.
  
-def draw(screen):
+def draw(screen, ship):
   """
   Draw things to the window. Called once per frame.
   """
   screen.fill((0, 0, 0)) # Fill the screen with black.
+  ship.draw(screen)
   
   # Redraw screen here.
   
@@ -43,6 +47,9 @@ def draw(screen):
 def runPyGame():
   # Initialise PyGame.
   pygame.init()
+
+  # Initialize Spaceship
+  ship = Spaceship()
   
   # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
   fps = 60.0
@@ -60,7 +67,7 @@ def runPyGame():
   dt = 1/fps # dt is the time since last frame.
   while True: # Loop forever!
     update(dt) # You can update/draw here, I've just moved the code for neatness.
-    draw(screen)
+    draw(screen, ship)
     
     dt = fpsClock.tick(fps)
 
