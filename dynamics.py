@@ -26,16 +26,7 @@ def propagate(fun, t0, x0, dt, u):
     xnew = x0 + (k0 + 2 * k1 + 2 * k2 + k3) * dt / 6
     return xnew
     
-
-def double_integrator(t, x):
-    """
-    Dynamics function
-    """
-    dxdt = np.empty_like(x)
-    dxdt[0] = x[1]
-    dxdt[1] = 0
-    return dxdt
-    
+   
 def gravity2D(t, x, u):
     """
     Dynamics function

@@ -23,9 +23,8 @@ def update(dt, ship):
         # about is the QUIT event, because if you don't handle it, your game will crash
         # whenever someone tries to exit.
         
-        
+        # Movement keys
         if event.type == KEYDOWN:
-
             if event.key == 115 or event.key == 274:
                 action = np.array([0, T])
             elif event.key == 119 or event.key == 273:
@@ -39,6 +38,7 @@ def update(dt, ship):
             pygame.quit()
             sys.exit() 
             
+    # Update state
     ship.update(dt, action)
 
     
