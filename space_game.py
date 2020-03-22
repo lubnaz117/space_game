@@ -10,7 +10,7 @@ from pygame.locals import *
 # Import custom classes
 from Spaceship import *
  
-def update(dt):
+def update(dt, ship):
     """
     Update game. Called once per frame.
     """
@@ -26,20 +26,21 @@ def update(dt):
         
         if event.type == KEYDOWN:
 
-            if event.key == 119:
+            if event.key == 115 or event.key == 274:
                 action = np.array([0, T])
-            elif event.key == 115:
+            elif event.key == 119 or event.key == 273:
                 action = np.array([0, -T])
-            elif event.key == 100:
+            elif event.key == 100 or event.key == 275:
                 action = np.array([T, 0])
-            elif event.key == 97:
+            elif event.key == 97 or event.key == 276:
                 action = np.array([-T, 0])            
         
         if event.type == QUIT:
             pygame.quit()
             sys.exit() 
-                
-    return action
+            
+    ship.update(dt, action)
+
     
 def draw(screen, ship):
     """
@@ -65,21 +66,17 @@ def runPyGame():
     fpsClock = pygame.time.Clock()
 
     # Set up the window.
-    width, height = 640, 480
+    width, height = 1000, 480
     screen = pygame.display.set_mode((width, height))
 
-    # screen is the surface representing the window.
-    # PyGame surfaces can be thought of as screen sections that you can draw onto.
-    # You can also draw surfaces onto other surfaces, rotate surfaces, and transform surfaces.
-
     # Main game loop.
-    dt = 1/fps # dt is the time since last frame.
-    while True: # Loop forever!
-        action = update(dt) 
-        
-        ship.update(dt, action)
+    dt = 1 / fps
+    while True:
+        # Update ship and draw
+        update(dt, ship) 
         draw(screen, ship)
-
+    
+        # Get time since last frame.
         dt = fpsClock.tick(fps)
 
 if __name__ == "__main__":

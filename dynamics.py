@@ -40,11 +40,13 @@ def gravity2D(t, x, u):
     """
     Dynamics function
     """
+    g = 0.0001
+    
     dxdt = np.empty_like(x)
     dxdt[0] = x[2]
     dxdt[1] = x[3]
-    dxdt[2] = 0 + u[0]
-    dxdt[3] = 0.00001 + u[1]
+    dxdt[2] = u[0]
+    dxdt[3] = g + u[1]
     return dxdt
 
 
