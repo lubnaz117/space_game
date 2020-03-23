@@ -15,14 +15,29 @@ class Moon():
 
     def draw(self, screen):
         self._pos = [int(self.state[0]), int(self.state[1])]
-    
-        pygame.draw.circle(screen, self._color, self._pos, self._radius)
+        points = [
+            (0, 1000), 
+            (100, 800), 
+            (200, 800),
+            (300, 800),
+            (400, 1000),
+            (500, 800),
+            (550, 800),
+            (600, 1000),
+            (700, 1000),
+            (800, 800),
+            (900, 800),
+            (1000, 1000),
+            (1100, 1000),
+            (1200, 1000), # Needs to end at 1200
+            ]    
+        pygame.draw.lines(screen, self._color, False, points)
 
     def update(self, dt, action):
 
-        fun = gravity2D
+        # fun = gravity2D
         t = 0
-        self.state = propagate(fun, t, self.state, dt, action)
+        # self.state = propagate(fun, t, self.state, dt, action)
 
         
         #print(self.state)
