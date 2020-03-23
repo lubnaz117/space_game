@@ -55,18 +55,5 @@ def gravity2DAttitude(t, x, u):
     dxdt[2] = u[0]
     dxdt[3] = g + u[1]
     dxdt[4] = x[5]
-    dxdt[5] = 0
+    dxdt[5] = u[2] - x[5] * 0.0005
     return dxdt
-    
-
-if __name__ == "__main__":
-    fun = double_integrator
-    t = 0
-    x = np.array([0, 1])
-    dt = 1
-    
-
-    for ii in range(5):
-        x = propagate(fun, t, x, dt)
-        t += dt
-        print(t, x)

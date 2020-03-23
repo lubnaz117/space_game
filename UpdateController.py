@@ -5,10 +5,10 @@ from pygame.locals import *
 import sys
 
 class UpdateController():
-    '''
+    """
     This keeps track of what keys are being pressed and whether a key is being
     held.
-    '''
+    """
 
     previous_action = 0
 
@@ -20,6 +20,8 @@ class UpdateController():
         2   Move up
         3   Move right
         4   Move down
+        5   Rotate counter-clockwise
+        6   Rotate clockwise
         """
         
         # Get previous action
@@ -41,7 +43,11 @@ class UpdateController():
                 elif event.key == K_d or event.key == K_RIGHT:
                     action = 3
                 elif event.key == K_s or event.key == K_DOWN:
-                    action = 4          
+                    action = 4 
+                elif event.key == K_q or event.key == K_PAGEUP:
+                    action = 5   
+                elif event.key == K_e or event.key == K_PAGEDOWN:
+                    action = 6   
             
             # Check key release event to stop action
             if event.type == KEYUP:
