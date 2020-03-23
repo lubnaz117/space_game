@@ -71,7 +71,7 @@ def runPyGame():
     fpsClock = pygame.time.Clock()
 
     # Set up the window.
-    screen_size = (1200, 1200) # width, height
+    screen_size = (1200, 800) # width, height
     screen = pygame.display.set_mode(screen_size)
 
     # Initialize Spaceship
