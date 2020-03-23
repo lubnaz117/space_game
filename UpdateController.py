@@ -13,15 +13,16 @@ class UpdateController():
     previous_action = 0
 
     def get_action(self):
-        '''
+        """
         Actions:
         0   No action
         1   Move left
         2   Move up
         3   Move right
         4   Move down
-        '''
-        # No action
+        """
+        
+        # Get previous action
         action = self.previous_action
     
         # Go through events that are passed to the script by the window.
@@ -45,9 +46,8 @@ class UpdateController():
             # Check key release event to stop action
             if event.type == KEYUP:
                 action = 0
-            
-            #print(action)
-            
+        
+        # Save action
         self.previous_action = action
         
         return action

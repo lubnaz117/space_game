@@ -29,7 +29,8 @@ def propagate(fun, t0, x0, dt, u):
    
 def gravity2D(t, x, u):
     """
-    Dynamics function
+    Particle in 2D gravity equations of motion 
+    x = [x, y, vx, vy]
     """
     g = 0.0001
     
@@ -40,6 +41,23 @@ def gravity2D(t, x, u):
     dxdt[3] = g + u[1]
     return dxdt
 
+def gravity2DAttitude(t, x, u):
+    """
+    Rigid body in 2D gravity equations of motion
+    x = [x, y, vx, vy, theta, omega]
+    u = [Fx, Fy, T]
+    """
+    g = 0.0001
+    
+    dxdt = np.empty_like(x)
+    dxdt[0] = x[2]
+    dxdt[1] = x[3]
+    dxdt[2] = u[0]
+    dxdt[3] = g + u[1]
+    dxdt[4] = x[5]
+    dxdt[5] = 0
+    return dxdt
+    
 
 if __name__ == "__main__":
     fun = double_integrator

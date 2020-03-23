@@ -37,8 +37,9 @@ def runPyGame():
     # Initialize Spaceship
     ship = Spaceship()
 
-    # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
-    fps = 30.0
+    # Set up the clock
+    fps = 60.0
+    dt = 1 / fps 
     fpsClock = pygame.time.Clock()
 
     # Set up the window.
@@ -52,13 +53,10 @@ def runPyGame():
     ship = Spaceship()
     moon = Moon()
 
-    # Main game loop.
-    dt = 1 / fps # dt is the time since last frame.
-    while True: # Loop forever!
+    # Main game loop
+    while True: 
         action = update(controller, dt, ship, moon) 
-        
         draw(screen, ship, moon)
-
         dt = fpsClock.tick(fps)
 
 if __name__ == "__main__":

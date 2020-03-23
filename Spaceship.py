@@ -9,23 +9,32 @@ class Spaceship():
     acs_isp = 1
 
     def __init__(self):
-        # Initial state: [x, y, vx, vy]
-        self.state = np.array([50, 50, 0.05, 0])
+        # Initial state: [x, y, vx, vy, th, omega]
+        self.state = np.array([50, 50, 0.05, 0, 0, 0.1])
         
-        # Load lander image
-        self.graphic = pygame.image.load('graphics/lander.png')
-        self.graphic = pygame.transform.scale(self.graphic, (50, 50))
-
+        # Load lander image    
+        image = pygame.image.load('graphics/lander.png')
+        image = pygame.transform.scale(image, (50, 50))       
+        self.image = image
+        
+        rect = image.get_rect()
+        self.width = rect.w
+        self.height = rect.h
+                
     def draw(self, screen):
         # Position on screen
         x = int(self.state[0])
         y = int(self.state[1])
-        screen.blit(self.graphic, (x, y))
+        theta = int(self.state[4])
+
+        graphic = pygame.transform.rotate(self.image, theta)
+        
+        screen.blit(graphic, (x, y))
         
     def update(self, dt, action):
     
         # Interpret action
-        T = 0.0005
+        T = 0.0009
         if action == 0:
             u = np.array([0, 0])
         elif action == 1:
@@ -38,5 +47,5 @@ class Spaceship():
             u = np.array([0, T]) 
     
         # Propagate spaceship
-        fun = gravity2D
+        fun = gravity2DAttitude
         self.state = propagate(fun, 0, self.state, dt, u)
