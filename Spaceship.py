@@ -14,17 +14,12 @@ class Spaceship():
         self.graphic = pygame.transform.scale(self.graphic, (50, 50))
 
     def draw(self, screen):
-        #self._pos = [int(self.state[0]), int(self.state[1])]
-
+        # Position on screen
         x = int(self.state[0])
         y = int(self.state[1])
-        
         screen.blit(self.graphic, (x, y))
         
     def update(self, dt, action):
-        
+        # Propagate spaceship
         fun = gravity2D
-        t = 0
-        self.state = propagate(fun, t, self.state, dt, action)
-        
-        #print(self.state)
+        self.state = propagate(fun, 0, self.state, dt, action)

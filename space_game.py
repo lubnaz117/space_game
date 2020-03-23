@@ -11,13 +11,11 @@ from pygame.locals import *
 from Spaceship import *
 from Moon import *
 
- 
 def update(dt, ship, moon):
     """
     Update game. Called once per frame.
     """
     action = np.array([0, 0])
-    
     
     # Go through events that are passed to the script by the window.
     for event in pygame.event.get():
