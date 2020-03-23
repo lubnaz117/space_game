@@ -19,9 +19,6 @@ def update(dt, ship, moon):
     
     # Go through events that are passed to the script by the window.
     for event in pygame.event.get():
-        # We need to handle these events. Initially the only one you'll want to care
-        # about is the QUIT event, because if you don't handle it, your game will crash
-        # whenever someone tries to exit.
         
         # Thrust amount
         T = 0.005
@@ -52,8 +49,6 @@ def draw(screen, ship, moon):
     ship.draw(screen)
     moon.draw(screen)
 
-    # Redraw screen here.
-
     # Flip the display so that the things we drew actually show up.
     pygame.display.flip()
 
@@ -77,7 +72,7 @@ def runPyGame():
     moon = Moon()
 
     # Main game loop.
-    dt = 1/fps # dt is the time since last frame.
+    dt = 1 / fps # dt is the time since last frame.
     while True: # Loop forever!
         action = update(dt, ship, moon) 
         

@@ -4,6 +4,9 @@ from pygame.locals import *
 from dynamics import *
 
 class Spaceship():
+    fuel = 100
+    main_isp = 1
+    acs_isp = 1
 
     def __init__(self):
         # Initial state: [x, y, vx, vy]
