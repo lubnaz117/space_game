@@ -10,36 +10,14 @@ from pygame.locals import *
 # Import custom classes
 from Spaceship import *
 from Moon import *
+from UpdateController import *
 
-def update(dt, ship, moon):
+def update(controller, dt, ship, moon):
     """
     Update game. Called once per frame.
     """
-    action = np.array([0, 0])
-    
-    # Go through events that are passed to the script by the window.
-    for event in pygame.event.get():
-        
-        # Thrust amount
-        T = 0.005
-        
-        # Movement keys
-        if event.type == KEYDOWN:
-            if event.key == 115 or event.key == 274:
-                action = np.array([0, T])
-            elif event.key == 119 or event.key == 273:
-                action = np.array([0, -T])
-            elif event.key == 100 or event.key == 275:
-                action = np.array([T, 0])
-            elif event.key == 97 or event.key == 276:
-                action = np.array([-T, 0])            
-        
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit() 
-
+    action = controller.get_action()
     ship.update(dt, action)
-    #moon.update(dt, action)
 
 def draw(screen, ship, moon):
     """
@@ -66,7 +44,10 @@ def runPyGame():
     # Set up the window.
     screen_size = (1200, 800) # width, height
     screen = pygame.display.set_mode(screen_size)
-
+    
+    # Intialize input controller
+    controller = UpdateController()
+    
     # Initialize Spaceship
     ship = Spaceship()
     moon = Moon()
@@ -74,7 +55,7 @@ def runPyGame():
     # Main game loop.
     dt = 1 / fps # dt is the time since last frame.
     while True: # Loop forever!
-        action = update(dt, ship, moon) 
+        action = update(controller, dt, ship, moon) 
         
         draw(screen, ship, moon)
 

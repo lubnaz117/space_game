@@ -23,6 +23,20 @@ class Spaceship():
         screen.blit(self.graphic, (x, y))
         
     def update(self, dt, action):
+    
+        # Interpret action
+        T = 0.0005
+        if action == 0:
+            u = np.array([0, 0])
+        elif action == 1:
+            u = np.array([-T, 0])
+        elif action == 2:
+            u = np.array([0, -T])
+        elif action == 3:
+            u = np.array([T, 0])        
+        elif action == 4:
+            u = np.array([0, T]) 
+    
         # Propagate spaceship
         fun = gravity2D
-        self.state = propagate(fun, 0, self.state, dt, action)
+        self.state = propagate(fun, 0, self.state, dt, u)
