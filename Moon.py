@@ -4,16 +4,20 @@ from pygame.locals import *
 from dynamics import *
 
 import random
-class Moon():
+class Moon(pygame.sprite.Sprite):
 
 
     def __init__(self, screen_size):
+        # Sprite constructor
+        pygame.sprite.Sprite.__init__(self)
 
         self.SCREEN_WIDTH            = screen_size[0]
         self.SCREEN_HEIGHT           = screen_size[1]
 
-        self._surface_points = self.generate_craters()
+        self.SURFACE_HEIGHT_MEAN     = self.SCREEN_HEIGHT - 100
+        self.rect      = (0, self.SURFACE_HEIGHT_MEAN, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
+        self._surface_points = self.generate_craters()
 
     def draw(self, screen):
 
@@ -23,7 +27,6 @@ class Moon():
 
     def generate_craters(self):
         CRATER_HEIGHT_MEAN      = self.SCREEN_HEIGHT - 50
-        SURFACE_HEIGHT_MEAN     = self.SCREEN_HEIGHT - 100
 
         SURFACE_RESOLUTION  = 40 # how many pixels in a surface "block"
         # Note: 40 seems good for the width of the lander
@@ -36,7 +39,7 @@ class Moon():
         # we do this to create a polygon
         surface = [
                     (0,self.SCREEN_HEIGHT),
-                    (0,SURFACE_HEIGHT_MEAN)
+                    (0,self.SURFACE_HEIGHT_MEAN)
                     ]
     
         x_pts = range(50, self.SCREEN_WIDTH, SURFACE_RESOLUTION)
@@ -53,7 +56,7 @@ class Moon():
                 surface.append( (x_pt, crater_height) )
                 surface.append( (x_pt+CRATER_WIDTH/2, crater_height) )
             else:
-                surface_height = SURFACE_HEIGHT_MEAN*(1 + random.randrange(-2, 2)/100) # this varies the height of the surface by +/- 3%
+                surface_height = self.SURFACE_HEIGHT_MEAN*(1 + random.randrange(-2, 2)/100) # this varies the height of the surface by +/- 3%
                 surface.append( (x_pt, surface_height) )
         
         # add last point to close the polygon

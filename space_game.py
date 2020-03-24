@@ -23,7 +23,9 @@ def draw(screen, ship, moon):
     """
     Draw things to the window. Called once per frame.
     """
-    screen.fill((0, 0, 0)) # Fill the screen with black.
+
+    screen_color = check_crash(ship, moon)
+    screen.fill(screen_color) # Fill the screen with black.
     ship.draw(screen)
     moon.draw(screen)
 
@@ -50,11 +52,24 @@ def runPyGame():
     ship = Spaceship()
     moon = Moon(screen_size)
 
+    # Setup Sprites:
+    sprite_list = pygame.sprite.Group()
+    sprite_list.add(ship)
+    sprite_list.add(moon) # TODO: The moon surface points are gonn have to be individual sprites
+
     # Main game loop
     while True: 
         action = update(controller, dt, ship, moon) 
         draw(screen, ship, moon)
         dt = fpsClock.tick(fps)
+
+def check_crash(ship, moon):
+    is_crashed = pygame.sprite.collide_rect(ship, moon)
+
+    if is_crashed == True:
+        return (255, 0, 0) # red 
+    else:
+        return (0, 0, 0) # black
 
 if __name__ == "__main__":
     runPyGame()

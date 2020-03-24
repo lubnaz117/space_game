@@ -3,7 +3,7 @@ from pygame.locals import *
 
 from dynamics import *
 
-class Spaceship():
+class Spaceship(pygame.sprite.Sprite):
     fuel = 100
     main_isp = 1
     acs_isp = 1
@@ -12,24 +12,28 @@ class Spaceship():
     state = np.array([50, 50, 0.05, 0, 0, 0])
 
     def __init__(self): 
+        # Sprite constructor
+        pygame.sprite.Sprite.__init__(self)
+
         # Load lander image    
         image = pygame.image.load('graphics/lander.png')
         image = pygame.transform.scale(image, (50, 50))       
         self.image = image
-        
-        rect = image.get_rect()
-        self.width = rect.w
-        self.height = rect.h
+
+        self.rect = image.get_rect()
+
+        self.width = self.rect.w
+        self.height = self.rect.h
                 
     def draw(self, screen):
         # Position on screen
-        x = int(self.state[0])
-        y = int(self.state[1])
+        self.rect.x = int(self.state[0])
+        self.rect.y = int(self.state[1])
         theta = int(self.state[4])
 
         graphic = pygame.transform.rotate(self.image, theta)
         
-        screen.blit(graphic, (x, y))
+        screen.blit(graphic, (self.rect.x, self.rect.y))
         
     def update(self, dt, action):
     
