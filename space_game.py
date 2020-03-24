@@ -34,9 +34,6 @@ def runPyGame():
     # Initialise PyGame.
     pygame.init()
 
-    # Initialize Spaceship
-    ship = Spaceship()
-
     # Set up the clock
     fps = 60.0
     dt = 1 / fps 
