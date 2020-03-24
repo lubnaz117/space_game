@@ -22,8 +22,6 @@ class Spaceship(pygame.sprite.Sprite):
 
         self.rect = image.get_rect()
 
-        self.width = self.rect.w
-        self.height = self.rect.h
                 
     def draw(self, screen):
         # Position on screen
@@ -35,7 +33,7 @@ class Spaceship(pygame.sprite.Sprite):
         
         screen.blit(graphic, (self.rect.x, self.rect.y))
         
-    def update(self, dt, action):
+    def update(self, dt, action, is_crashed):
     
         # Interpret action
         T = 0.0009
@@ -52,7 +50,11 @@ class Spaceship(pygame.sprite.Sprite):
         elif action == 5:
             u = np.array([0, 0, T]) 
         elif action == 6:
-            u = np.array([0, 0, -T]) 
+            u = np.array([0, 0, -T])
+            
+        # Check crash
+        if is_crashed:
+            self.state = bounce(self.state)
     
         # Propagate spaceship
         fun = gravity2DAttitude

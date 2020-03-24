@@ -17,15 +17,20 @@ def update(controller, dt, ship, moon):
     Update game. Called once per frame.
     """
     action = controller.get_action()
-    ship.update(dt, action)
+    
+    is_crashed = check_crash(ship, moon)
+    
+    ship.update(dt, action, is_crashed)
 
 def draw(screen, ship, moon):
     """
     Draw things to the window. Called once per frame.
     """
-
-    screen_color = check_crash(ship, moon)
-    screen.fill(screen_color) # Fill the screen with black.
+    is_crashed = check_crash(ship, moon)
+    
+    screen_color = check_screen_color(is_crashed)
+    screen.fill(screen_color)
+    
     ship.draw(screen)
     moon.draw(screen)
 
@@ -64,12 +69,13 @@ def runPyGame():
         dt = fpsClock.tick(fps)
 
 def check_crash(ship, moon):
-    is_crashed = pygame.sprite.collide_rect(ship, moon)
+    return pygame.sprite.collide_rect(ship, moon)
 
+def check_screen_color(is_crashed):
     if is_crashed == True:
         return (255, 0, 0) # red 
     else:
         return (0, 0, 0) # black
-
+        
 if __name__ == "__main__":
     runPyGame()

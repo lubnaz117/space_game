@@ -26,21 +26,6 @@ def propagate(fun, t0, x0, dt, u):
     xnew = x0 + (k0 + 2 * k1 + 2 * k2 + k3) * dt / 6
     return xnew
     
-   
-def gravity2D(t, x, u):
-    """
-    Particle in 2D gravity equations of motion 
-    x = [x, y, vx, vy]
-    """
-    g = 0.0001
-    
-    dxdt = np.empty_like(x)
-    dxdt[0] = x[2]
-    dxdt[1] = x[3]
-    dxdt[2] = u[0]
-    dxdt[3] = g + u[1]
-    return dxdt
-
 def gravity2DAttitude(t, x, u):
     """
     Rigid body in 2D gravity equations of motion
@@ -57,3 +42,17 @@ def gravity2DAttitude(t, x, u):
     dxdt[4] = x[5]
     dxdt[5] = u[2] - x[5] * 0.0005
     return dxdt
+
+def bounce(x):
+    """
+    x = [x, y, vx, vy, theta, omega]
+    """
+    
+    # Velocity lost
+    C = 0.7
+    
+    # Flip y velocity
+    if x[3] > 0:
+        x[3] = - x[3] * C
+
+    return x
