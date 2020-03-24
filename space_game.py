@@ -42,13 +42,13 @@ def runPyGame():
     # Set up the window.
     screen_size = (1200, 800) # width, height
     screen = pygame.display.set_mode(screen_size)
-    
+        
     # Intialize input controller
     controller = UpdateController()
     
     # Initialize Spaceship
     ship = Spaceship()
-    moon = Moon()
+    moon = Moon(screen_size)
 
     # Main game loop
     while True: 

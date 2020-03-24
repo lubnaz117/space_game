@@ -7,35 +7,23 @@ import random
 class Moon():
 
 
-    def __init__(self):
+    def __init__(self, screen_size):
 
-        self.state = np.array([600, 600, 0.05, 0])
-
-        self._pos = [self.state[0], self.state[1]]
-        self._radius = 100
-        self._color = 120, 120, 120
-
-        self._craters = [
-                        100,
-                        300,
-                        600,
-                        800,
-                        1000,
-                        ]
+        self.SCREEN_WIDTH            = screen_size[0]
+        self.SCREEN_HEIGHT           = screen_size[1]
 
         self._surface_points = self.generate_craters()
 
 
     def draw(self, screen):
-        self._pos = [int(self.state[0]), int(self.state[1])]
 
-        pygame.draw.polygon(screen, self._color, self._surface_points)
+        SURFACE_COLOR = 120, 120, 120 # gray
+
+        pygame.draw.polygon(screen, SURFACE_COLOR, self._surface_points)
 
     def generate_craters(self):
-        CRATER_HEIGHT_MEAN      = 750
-        SURFACE_HEIGHT_MEAN     = 700
-        SCREEN_HEIGHT           = 800
-        SCREEN_WIDTH            = 1250
+        CRATER_HEIGHT_MEAN      = self.SCREEN_HEIGHT - 50
+        SURFACE_HEIGHT_MEAN     = self.SCREEN_HEIGHT - 100
 
         SURFACE_RESOLUTION  = 40 # how many pixels in a surface "block"
         # Note: 40 seems good for the width of the lander
@@ -47,11 +35,11 @@ class Moon():
         # first point is a surface point
         # we do this to create a polygon
         surface = [
-                    (0,SCREEN_HEIGHT),
+                    (0,self.SCREEN_HEIGHT),
                     (0,SURFACE_HEIGHT_MEAN)
                     ]
     
-        x_pts = range(50, SCREEN_WIDTH, SURFACE_RESOLUTION)
+        x_pts = range(50, self.SCREEN_WIDTH, SURFACE_RESOLUTION)
         
         # create 5 random craters
         crater_pts = random.sample(x_pts, 5) 
@@ -69,7 +57,7 @@ class Moon():
                 surface.append( (x_pt, surface_height) )
         
         # add last point to close the polygon
-        surface.append( (SCREEN_WIDTH, SCREEN_HEIGHT))
+        surface.append( (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
         
         return surface
 
