@@ -30,6 +30,8 @@ def draw(screen, ship, moon, fps):
     #screen.fill(screen_color)
     screen.fill((0, 0, 0))
     
+    # TODO: make screen text object
+    
     # Display FPS
     font = pygame.font.Font(pygame.font.get_default_font(), 40)
     text_surface = font.render(str(int(fps)), True, (0, 255, 0))

@@ -34,13 +34,14 @@ def gravity2DAttitude(t, x, u):
     u = [Fx, Fy, T]
     """
         
+    # Gravity lol
     g = 0.0001
     
     # Attitude control gains
     if u[2] == 0:
-        kp = 0.00001
-        kd = 0.005
-    else:
+        kp = 5E-6
+        kd = 5E-3
+    else: # Turn off control when there is input
         kp = 0
         kd = 0
     
@@ -73,7 +74,7 @@ def bounce(x):
     x = [x, y, vx, vy, theta, omega]
     """
     
-    # Velocity lost
+    # Velocity lost after a bounce
     Cx = 0.8
     Cy = 0.7
     
