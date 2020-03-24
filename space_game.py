@@ -48,7 +48,7 @@ def runPyGame():
     pygame.font.init()
 
     # Set up the clock
-    fps = 60.0
+    fps = 60
     dt = 1 / fps 
     clock = pygame.time.Clock()
 
@@ -79,7 +79,7 @@ def runPyGame():
         
         # Update screen
         draw(screen, ship, moon, fps_real)
-
+        
 
 def check_crash(ship, moon):
     return pygame.sprite.collide_rect(ship, moon)

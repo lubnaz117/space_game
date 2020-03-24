@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 def propagate(fun, t0, x0, dt, u):
     """
@@ -32,15 +33,39 @@ def gravity2DAttitude(t, x, u):
     x = [x, y, vx, vy, theta, omega]
     u = [Fx, Fy, T]
     """
+        
     g = 0.0001
+    
+    # Attitude control gains
+    if u[2] == 0:
+        kp = 0.00001
+        kd = 0.005
+    else:
+        kp = 0
+        kd = 0
+    
+    # Force from thrusters
+    th = x[4]    
+    cth = math.cos(th * math.pi / 180)
+    sth = math.sin(th * math.pi / 180)    
+    F_thrust = np.array([cth * u[0] + sth * u[1], -sth * u[0] + cth * u[1]])
+    
+    # Force from gravity
+    F_grav = np.array([0, g])
+    
+    # Torque from input
+    T_input = u[2]
+    
+    # Torque from control
+    T_control = - x[4] * kp - x[5] * kd
     
     dxdt = np.empty_like(x)
     dxdt[0] = x[2]
     dxdt[1] = x[3]
-    dxdt[2] = u[0]
-    dxdt[3] = g + u[1]
+    dxdt[2] = F_thrust[0] + F_grav[0]
+    dxdt[3] = F_thrust[1] + F_grav[1]
     dxdt[4] = x[5]
-    dxdt[5] = u[2] - x[5] * 0.0005
+    dxdt[5] = T_input + T_control
     return dxdt
 
 def bounce(x):
