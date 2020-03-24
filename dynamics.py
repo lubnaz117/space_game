@@ -49,10 +49,10 @@ def bounce(x):
     """
     
     # Velocity lost
-    C = 0.7
+    Cx = 0.8
+    Cy = 0.7
     
     # Flip y velocity
     if x[3] > 0:
-        x[3] = - x[3] * C
-
-    return x
+        x[2] = x[2] * Cx
+        x[3] = - x[3] * Cy

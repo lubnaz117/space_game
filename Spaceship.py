@@ -21,19 +21,23 @@ class Spaceship(pygame.sprite.Sprite):
         self.image = image
 
         self.rect = image.get_rect()
-
-                
+ 
     def draw(self, screen):
+        # Rotate image
+        theta = int(self.state[4])
+        graphic = pygame.transform.rotate(self.image, theta)
+    
         # Position on screen
         self.rect.x = int(self.state[0])
         self.rect.y = int(self.state[1])
-        theta = int(self.state[4])
-
-        graphic = pygame.transform.rotate(self.image, theta)
         
+        # Draw on screen
         screen.blit(graphic, (self.rect.x, self.rect.y))
         
     def update(self, dt, action, is_crashed):
+        """
+        Spaceship physics
+        """
     
         # Interpret action
         T = 0.0009
@@ -54,7 +58,7 @@ class Spaceship(pygame.sprite.Sprite):
             
         # Check crash
         if is_crashed:
-            self.state = bounce(self.state)
+            bounce(self.state)
     
         # Propagate spaceship
         fun = gravity2DAttitude

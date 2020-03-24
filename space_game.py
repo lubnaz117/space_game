@@ -17,20 +17,25 @@ def update(controller, dt, ship, moon):
     Update game. Called once per frame.
     """
     action = controller.get_action()
-    
     is_crashed = check_crash(ship, moon)
     
     ship.update(dt, action, is_crashed)
 
-def draw(screen, ship, moon):
+def draw(screen, ship, moon, fps):
     """
     Draw things to the window. Called once per frame.
     """
-    is_crashed = check_crash(ship, moon)
+    #is_crashed = check_crash(ship, moon)
+    #screen_color = check_screen_color(is_crashed)
+    #screen.fill(screen_color)
+    screen.fill((0, 0, 0))
     
-    screen_color = check_screen_color(is_crashed)
-    screen.fill(screen_color)
+    # Display FPS
+    font = pygame.font.Font(pygame.font.get_default_font(), 40)
+    text_surface = font.render(str(int(fps)), True, (0, 255, 0))
+    screen.blit(text_surface, (10, 10))
     
+    # Draw sprites
     ship.draw(screen)
     moon.draw(screen)
 
@@ -40,11 +45,12 @@ def draw(screen, ship, moon):
 def runPyGame():
     # Initialise PyGame.
     pygame.init()
+    pygame.font.init()
 
     # Set up the clock
     fps = 60.0
     dt = 1 / fps 
-    fpsClock = pygame.time.Clock()
+    clock = pygame.time.Clock()
 
     # Set up the window.
     screen_size = (1200, 800) # width, height
@@ -63,10 +69,17 @@ def runPyGame():
     sprite_list.add(moon) # TODO: The moon surface points are gonn have to be individual sprites
 
     # Main game loop
-    while True: 
-        action = update(controller, dt, ship, moon) 
-        draw(screen, ship, moon)
-        dt = fpsClock.tick(fps)
+    while True:
+        # Update sprites
+        update(controller, dt, ship, moon)
+        
+        # Get time stuff
+        dt = clock.tick(fps)
+        fps_real = clock.get_fps()
+        
+        # Update screen
+        draw(screen, ship, moon, fps_real)
+
 
 def check_crash(ship, moon):
     return pygame.sprite.collide_rect(ship, moon)
