@@ -44,23 +44,22 @@ class Spaceship(pygame.sprite.Sprite):
         # Draw on screen
         screen.blit(graphic, (self.rect.x, self.rect.y))
 
-        self.draw_alt(screen)
-        self.draw_vel(screen)
+        self.disp_alt(screen)
+        self.disp_vel(screen)
 
-    def draw_alt(self, screen):
-        font = pygame.font.Font(pygame.font.get_default_font(), 40)
-        text_surface = font.render('Altitude: ' + str(int(self.altitude)), True, (255, 0, 0))
-        screen.blit(text_surface, (10, 60))
+    def disp_alt(self, screen):
+        text_surface = settings.font.render(
+            'Altitude: '
+            + str(int(self.altitude)),
+            True, (255, 0, 0))
+        screen.blit(text_surface, settings.text_xy_ALT)
 
-    def draw_vel(self, screen):
-        font = pygame.font.Font(pygame.font.get_default_font(), 40)
-
-        text_surface = font.render(
+    def disp_vel(self, screen):
+        text_surface = settings.font.render(
             'Vel Y:  '
-            + str(-int(self.state[3]*1000)) # Oof switch this direction so - means down
-            ,
+            + str(-int(self.state[3]*1000)), # Oof switch this direction so - means down
             True, (0, 0, 250))
-        screen.blit(text_surface, (10, 110))
+        screen.blit(text_surface, settings.text_xy_VELY)
         
     def update(self, dt, action, is_crashed):
         """
@@ -76,7 +75,7 @@ class Spaceship(pygame.sprite.Sprite):
         elif action == 2:
             u = np.array([0, -T, 0])
         elif action == 3:
-            u = np.array([T, 0, 0])        
+            u = np.array([T, 0, 0])
         elif action == 4:
             u = np.array([0, T, 0])
         elif action == 5:
@@ -93,4 +92,4 @@ class Spaceship(pygame.sprite.Sprite):
         self.state = propagate(fun, 0, self.state, dt, u)
 
         # Calculate Altitude
-        self.altitude = 800 - self.state[1]
+        self.altitude = settings.SCREEN_HEIGHT - self.state[1]

@@ -64,10 +64,5 @@ class Moon(pygame.sprite.Sprite):
         return surface
 
     def update(self, dt, action):
-
-        # fun = gravity2D
+        # TODO: This should update with horizonal scroll?
         t = 0
-        # self.state = propagate(fun, t, self.state, dt, action)
-
-        
-        #print(self.state)

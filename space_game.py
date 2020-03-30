@@ -4,15 +4,16 @@
 import sys
  
 # Import non-standard modules.
-import pygame
-from pygame.locals import *
+import  pygame
+from    pygame.locals import *
 
 # Import custom classes
 from Spaceship import *
 from Moon import *
 from UpdateController import *
 
-import space_game_config as settings
+import  space_game_config as settings
+from    space_game_helpers import *
 
 def update(controller, dt, ship, moon):
     """
@@ -27,26 +28,26 @@ def draw(screen, ship, moon, fps):
     """
     Draw things to the window. Called once per frame.
     """
-    is_crashed = check_crash(ship, moon)
-    #screen_color = check_screen_color(is_crashed)
-    #screen.fill(screen_color)
     screen.fill((0, 0, 0))
-    
-    # Display FPS
-    font = pygame.font.Font(pygame.font.get_default_font(), 40)
-    text_surface = font.render('FPS: ' + str(int(fps)), True, (0, 255, 0))
-    screen.blit(text_surface, (10, 10))
 
+    # Check for collision
+    is_crashed = check_crash(ship, moon)
     # Display Crash
     if is_crashed:
-        font = pygame.font.Font(pygame.font.get_default_font(), 40)
-        text_surface = font.render('RIP :(', True, (255, 0, 0))
-        screen.blit(text_surface, (10, 40))
+        text_surface = settings.font.render('RIP :(', True, (255, 0, 0))
+        screen.blit(text_surface, settings.text_xy_RIP)
+        #screen_color = check_screen_color(is_crashed)
+        #screen.fill(screen_color)
 
-    # Draw sprites
+    # Display FPS
+    text_surface = settings.font.render('FPS: ' + str(int(fps)), True, (0, 255, 0))
+    screen.blit(text_surface, settings.text_xy_FPS)
+
+    # Draw ship
     ship.draw(screen)
 
-    if ship.altitude < 800:
+    # Draw moon if ship is low enough
+    if ship.altitude < settings.SCREEN_HEIGHT:
         moon.draw(screen)
 
     # Flip the display so that the things we drew actually show up.
@@ -55,7 +56,6 @@ def draw(screen, ship, moon, fps):
 def runPyGame():
     # Initialise PyGame.
     pygame.init()
-    pygame.font.init()
 
     # Set up the clock
     fps = 60
@@ -63,7 +63,7 @@ def runPyGame():
     clock = pygame.time.Clock()
 
     # Set up the window.
-    screen_size = (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT) # width, height
+    screen_size = (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
     screen = pygame.display.set_mode(screen_size)
         
     # Intialize input controller
@@ -89,16 +89,6 @@ def runPyGame():
         
         # Update screen
         draw(screen, ship, moon, fps_real)
-        
 
-def check_crash(ship, moon):
-    return pygame.sprite.collide_rect(ship, moon)
-
-def check_screen_color(is_crashed):
-    if is_crashed == True:
-        return (255, 0, 0) # red 
-    else:
-        return (0, 0, 0) # black
-        
 if __name__ == "__main__":
     runPyGame()
