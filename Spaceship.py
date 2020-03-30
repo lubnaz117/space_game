@@ -4,6 +4,7 @@ from pygame.locals import *
 from dynamics import *
 
 import space_game_config as settings
+from   Actions import *
 
 class Spaceship(pygame.sprite.Sprite):
     fuel = 100
@@ -68,19 +69,19 @@ class Spaceship(pygame.sprite.Sprite):
     
         # Interpret action
         T = 0.0009
-        if action == 0:
+        if action == Actions.NONE:
             u = np.array([0, 0, 0])
-        elif action == 1:
+        elif action == Actions.LEFT:
             u = np.array([-T, 0, 0])
-        elif action == 2:
+        elif action == Actions.UP:
             u = np.array([0, -T, 0])
-        elif action == 3:
+        elif action == Actions.RIGHT:
             u = np.array([T, 0, 0])
-        elif action == 4:
+        elif action == Actions.DOWN:
             u = np.array([0, T, 0])
-        elif action == 5:
+        elif action == Actions.ROT_CCW:
             u = np.array([0, 0, T]) 
-        elif action == 6:
+        elif action == Actions.ROT_CW:
             u = np.array([0, 0, -T])
             
         # Check crash
