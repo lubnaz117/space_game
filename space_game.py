@@ -25,7 +25,7 @@ def draw(screen, ship, moon, fps):
     """
     Draw things to the window. Called once per frame.
     """
-    #is_crashed = check_crash(ship, moon)
+    is_crashed = check_crash(ship, moon)
     #screen_color = check_screen_color(is_crashed)
     #screen.fill(screen_color)
     screen.fill((0, 0, 0))
@@ -34,7 +34,13 @@ def draw(screen, ship, moon, fps):
     font = pygame.font.Font(pygame.font.get_default_font(), 40)
     text_surface = font.render(str(int(fps)), True, (0, 255, 0))
     screen.blit(text_surface, (10, 10))
-    
+
+    # Display Crash
+    if is_crashed:
+        font = pygame.font.Font(pygame.font.get_default_font(), 40)
+        text_surface = font.render('RIP :(', True, (255, 0, 0))
+        screen.blit(text_surface, (10, 50))
+
     # Draw sprites
     ship.draw(screen)
     moon.draw(screen)
