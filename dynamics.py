@@ -44,7 +44,7 @@ def gravity2DAttitude(t, x, u):
     else: # Turn off control when there is input
         kp = 0
         kd = 0
-    
+
     # Force from thrusters
     th = x[4]    
     cth = math.cos(th * math.pi / 180)
