@@ -12,7 +12,7 @@ from Spaceship import *
 from Moon import *
 from UpdateController import *
 
-import space_game_config
+import space_game_config as settings
 
 def update(controller, dt, ship, moon):
     """
@@ -63,15 +63,15 @@ def runPyGame():
     clock = pygame.time.Clock()
 
     # Set up the window.
-    screen_size = (1200, 800) # width, height
+    screen_size = (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT) # width, height
     screen = pygame.display.set_mode(screen_size)
         
     # Intialize input controller
     controller = UpdateController()
     
     # Initialize Spaceship
-    ship = Spaceship(screen_size)
-    moon = Moon(screen_size)
+    ship = Spaceship()
+    moon = Moon()
 
     # Setup Sprites:
     sprite_list = pygame.sprite.Group()

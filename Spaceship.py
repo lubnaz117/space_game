@@ -3,6 +3,8 @@ from pygame.locals import *
 
 from dynamics import *
 
+import space_game_config as settings
+
 class Spaceship(pygame.sprite.Sprite):
     fuel = 100
     main_isp = 1
@@ -12,7 +14,7 @@ class Spaceship(pygame.sprite.Sprite):
     # Initial state: [x, y, vx, vy, th, omega]
     state = np.array([0, 0, 0.05, 0, 0, 0]) # Other states allocated in init()
 
-    def __init__(self, screen_size):
+    def __init__(self):
         # Sprite constructor
         pygame.sprite.Sprite.__init__(self)
 
@@ -23,9 +25,6 @@ class Spaceship(pygame.sprite.Sprite):
 
         self.rect = image.get_rect()
 
-        self.SCREEN_WIDTH            = screen_size[0]
-        self.SCREEN_HEIGHT           = screen_size[1]
-
         # Initial state: [x, y, vx, vy, th, omega]
         state = np.array([50, self.altitude, 0.05, 0, 0, 0])
 
@@ -35,7 +34,7 @@ class Spaceship(pygame.sprite.Sprite):
         graphic = pygame.transform.rotate(self.image, theta)
     
         # Position on screen
-        if self.altitude > self.SCREEN_HEIGHT:
+        if self.altitude > settings.SCREEN_HEIGHT:
             self.rect.x = int(self.state[0])
             self.rect.y = 50
         else:
@@ -50,7 +49,7 @@ class Spaceship(pygame.sprite.Sprite):
 
     def draw_alt(self, screen):
         font = pygame.font.Font(pygame.font.get_default_font(), 40)
-        text_surface = font.render('Altitude:' + str(int(self.altitude)), True, (255, 0, 0))
+        text_surface = font.render('Altitude: ' + str(int(self.altitude)), True, (255, 0, 0))
         screen.blit(text_surface, (10, 60))
 
     def draw_vel(self, screen):
