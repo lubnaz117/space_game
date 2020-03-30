@@ -12,6 +12,8 @@ from Spaceship import *
 from Moon import *
 from UpdateController import *
 
+import space_game_config
+
 def update(controller, dt, ship, moon):
     """
     Update game. Called once per frame.
@@ -32,18 +34,20 @@ def draw(screen, ship, moon, fps):
     
     # Display FPS
     font = pygame.font.Font(pygame.font.get_default_font(), 40)
-    text_surface = font.render(str(int(fps)), True, (0, 255, 0))
+    text_surface = font.render('FPS: ' + str(int(fps)), True, (0, 255, 0))
     screen.blit(text_surface, (10, 10))
 
     # Display Crash
     if is_crashed:
         font = pygame.font.Font(pygame.font.get_default_font(), 40)
         text_surface = font.render('RIP :(', True, (255, 0, 0))
-        screen.blit(text_surface, (10, 50))
+        screen.blit(text_surface, (10, 40))
 
     # Draw sprites
     ship.draw(screen)
-    moon.draw(screen)
+
+    if ship.altitude < 800:
+        moon.draw(screen)
 
     # Flip the display so that the things we drew actually show up.
     pygame.display.flip()
@@ -66,7 +70,7 @@ def runPyGame():
     controller = UpdateController()
     
     # Initialize Spaceship
-    ship = Spaceship()
+    ship = Spaceship(screen_size)
     moon = Moon(screen_size)
 
     # Setup Sprites:
