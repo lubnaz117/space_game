@@ -3,19 +3,18 @@ from pygame.locals import *
 
 from dynamics import *
 
+import space_game_config as settings
+
 import random
 class Moon(pygame.sprite.Sprite):
 
 
-    def __init__(self, screen_size):
+    def __init__(self):
         # Sprite constructor
         pygame.sprite.Sprite.__init__(self)
 
-        self.SCREEN_WIDTH            = screen_size[0]
-        self.SCREEN_HEIGHT           = screen_size[1]
-
-        self.SURFACE_HEIGHT_MEAN     = self.SCREEN_HEIGHT - 100
-        self.rect      = (0, self.SURFACE_HEIGHT_MEAN, self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
+        self.SURFACE_HEIGHT_MEAN     = settings.SCREEN_HEIGHT - 100
+        self.rect      = (0, self.SURFACE_HEIGHT_MEAN, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 
         self._surface_points = self.generate_craters()
 
@@ -26,7 +25,7 @@ class Moon(pygame.sprite.Sprite):
         pygame.draw.polygon(screen, SURFACE_COLOR, self._surface_points)
 
     def generate_craters(self):
-        CRATER_HEIGHT_MEAN      = self.SCREEN_HEIGHT - 50
+        CRATER_HEIGHT_MEAN      = settings.SCREEN_HEIGHT - 50
 
         SURFACE_RESOLUTION  = 40 # how many pixels in a surface "block"
         # Note: 40 seems good for the width of the lander
@@ -38,11 +37,11 @@ class Moon(pygame.sprite.Sprite):
         # first point is a surface point
         # we do this to create a polygon
         surface = [
-                    (0,self.SCREEN_HEIGHT),
+                    (0,settings.SCREEN_HEIGHT),
                     (0,self.SURFACE_HEIGHT_MEAN)
                     ]
     
-        x_pts = range(50, self.SCREEN_WIDTH, SURFACE_RESOLUTION)
+        x_pts = range(50, settings.SCREEN_WIDTH, SURFACE_RESOLUTION)
         
         # create 5 random craters
         crater_pts = random.sample(x_pts, 5) 
@@ -60,15 +59,10 @@ class Moon(pygame.sprite.Sprite):
                 surface.append( (x_pt, surface_height) )
         
         # add last point to close the polygon
-        surface.append( (self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        surface.append( (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
         
         return surface
 
     def update(self, dt, action):
-
-        # fun = gravity2D
+        # TODO: This should update with horizonal scroll?
         t = 0
-        # self.state = propagate(fun, t, self.state, dt, action)
-
-        
-        #print(self.state)
