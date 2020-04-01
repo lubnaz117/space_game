@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 
 from dynamics import *
-
+from MoonSurface import *
 import space_game_config as settings
 
 import random
@@ -16,52 +16,63 @@ class Moon(pygame.sprite.Sprite):
         self.SURFACE_HEIGHT_MEAN     = settings.SCREEN_HEIGHT - 100
         self.rect      = (0, self.SURFACE_HEIGHT_MEAN, settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT)
 
-        self._surface_points = self.generate_craters()
+        self.SURFACE_RESOLUTION  = 100 # how many pixels in a surface "block"
+        # Note: 40 seems good for the width of the lander
+        
+        self._surface_sprites = self.generate_craters()
+
 
     def draw(self, screen):
+        """
+        Draw the whole moon surface as a polygon connecting all the surface sprites
+        NOTE: This method creates ez crater trapezoids :)
+        """
 
         SURFACE_COLOR = 120, 120, 120 # gray
+        CRATER_WIDTH  = self.SURFACE_RESOLUTION
 
-        pygame.draw.polygon(screen, SURFACE_COLOR, self._surface_points)
+        draw_pts = [( 0,settings.SCREEN_HEIGHT)]
+
+        for piece in self._surface_sprites:
+            if piece.IS_CRATER:
+                # create a trapezoid shaped crater
+                draw_pts.append((piece.rect.x + 0.2*CRATER_WIDTH, piece.rect.y))
+                draw_pts.append((piece.rect.x + 0.8*CRATER_WIDTH, piece.rect.y))
+            else:
+                draw_pts.append((piece.rect.x, piece.rect.y))
+                draw_pts.append((piece.rect.x + CRATER_WIDTH, piece.rect.y))
+        
+        draw_pts.append((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
+        pygame.draw.polygon(screen, SURFACE_COLOR, draw_pts)
 
     def generate_craters(self):
-        CRATER_HEIGHT_MEAN      = settings.SCREEN_HEIGHT - 50
+        CRATER_HEIGHT_MEAN      = settings.SCREEN_HEIGHT - 20
 
-        SURFACE_RESOLUTION  = 40 # how many pixels in a surface "block"
-        # Note: 40 seems good for the width of the lander
+        CRATER_WIDTH        = self.SURFACE_RESOLUTION
+        NUM_CRATERS         = 2
 
-        CRATER_WIDTH        = SURFACE_RESOLUTION
-
-        # list of points on x axis from 0 to SCREEN_WIDTH
-        # start list with left corner of screen
-        # first point is a surface point
-        # we do this to create a polygon
-        surface = [
-                    (0,settings.SCREEN_HEIGHT),
-                    (0,self.SURFACE_HEIGHT_MEAN)
-                    ]
-    
-        x_pts = range(50, settings.SCREEN_WIDTH, SURFACE_RESOLUTION)
+        x_pts = range(0, settings.SCREEN_WIDTH, self.SURFACE_RESOLUTION)
         
-        # create 5 random craters
-        crater_pts = random.sample(x_pts, 5) 
+        # create X random craters
+        crater_pts = random.sample(x_pts, NUM_CRATERS) 
 
+        surface_pieces = []
         # iterate throught the list of xaxis points, if theres a crater generate a crater height
         for x_pt in x_pts:
+            new_surface = MoonSurface()
+
             if x_pt in crater_pts:
+                new_surface.IS_CRATER = True
                 crater_height = CRATER_HEIGHT_MEAN*(1 + random.randrange(-2, 2)/100) # this varies the depth of the crater by +/- 3%
-                # create a trapezoid shaped crater
-                surface.append( (x_pt-CRATER_WIDTH/2, crater_height) )
-                surface.append( (x_pt, crater_height) )
-                surface.append( (x_pt+CRATER_WIDTH/2, crater_height) )
+                new_surface.rect = pygame.Rect(x_pt, crater_height, CRATER_WIDTH, crater_height)
             else:
+                new_surface.IS_CRATER = False
                 surface_height = self.SURFACE_HEIGHT_MEAN*(1 + random.randrange(-2, 2)/100) # this varies the height of the surface by +/- 3%
-                surface.append( (x_pt, surface_height) )
+                new_surface.rect = pygame.Rect(x_pt, surface_height, CRATER_WIDTH, surface_height)
+
+            surface_pieces.append(new_surface)
         
-        # add last point to close the polygon
-        surface.append( (settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
-        
-        return surface
+        return surface_pieces
 
     def update(self, dt, action):
         # TODO: This should update with horizonal scroll?
