@@ -32,6 +32,7 @@ def draw(screen, ship, moon, fps):
     
     # Check for collision
     is_crashed = check_crash(ship, moon)
+    
     # Display Crash
     if is_crashed:
         text_surface = settings.font.render('RIP :(', True, (255, 0, 0))
