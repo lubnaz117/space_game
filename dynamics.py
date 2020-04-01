@@ -1,6 +1,8 @@
 import numpy as np
 import math
 
+from    space_game_helpers import *
+
 def propagate(fun, t0, x0, dt, u):
     """
     Propagate state by timestep using RK4
@@ -78,7 +80,7 @@ def bounce(x):
     Cx = 0.8
     Cy = 0.7
     
-    # Flip y velocity
+    # Flip x and y velocity
     if x[3] > 0:
-        x[2] = x[2] * Cx
+        x[2] = -x[2] * Cx
         x[3] = - x[3] * Cy
